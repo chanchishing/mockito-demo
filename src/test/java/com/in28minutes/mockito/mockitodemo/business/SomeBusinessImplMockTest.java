@@ -1,6 +1,10 @@
 package com.in28minutes.mockito.mockitodemo.business;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.NoSuchElementException;
 
@@ -8,35 +12,36 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class SomeBusinessImplMockTest {
 
+    @Mock
+    private DataService dataServiceMock=mock(DataService.class);
 
+    @InjectMocks
+    private SomeBusinessImpl someBusinessImpl;
 
     @Test
     void findMaxFromAllData_basicTest() {
 
-        DataService dataServiceMock=mock(DataService.class);
         when(dataServiceMock.retrieveAllData()).thenReturn(new int[] {25,15,5});
 
-        assertEquals(25, new SomeBusinessImpl(dataServiceMock).findMaxFromAllData());
+        assertEquals(25, someBusinessImpl.findMaxFromAllData());
     }
 
     @Test
     void findMaxFromAllData_OneValueTest() {
 
-        DataService dataServiceMock=mock(DataService.class);
         when(dataServiceMock.retrieveAllData()).thenReturn(new int[] {25});
 
-        assertEquals(25, new SomeBusinessImpl(dataServiceMock).findMaxFromAllData());
+        assertEquals(25, someBusinessImpl.findMaxFromAllData());
     }
 
     @Test
     void findMaxFromAllData_EmptyTest() {
 
-        DataService dataServiceMock=mock(DataService.class);
         when(dataServiceMock.retrieveAllData()).thenReturn(new int[] {});
-
-        assertThrows(Exception.class,()->new SomeBusinessImpl(dataServiceMock).findMaxFromAllData());
+        assertThrows(Exception.class,()->someBusinessImpl.findMaxFromAllData());
     }
 
 }
