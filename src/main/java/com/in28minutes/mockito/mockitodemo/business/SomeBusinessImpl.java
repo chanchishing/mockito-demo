@@ -13,7 +13,7 @@ public class SomeBusinessImpl {
     public int findMaxFromAllData(){
         int[] data=dataService.retrieveAllData();
 
-        return Arrays.stream(data).max().orElse(Integer.MIN_VALUE);
+        return Arrays.stream(data).max().orElseThrow();
 
     }
 }
